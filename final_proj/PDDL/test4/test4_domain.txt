@@ -1,0 +1,19 @@
+(define (domain blocksworld)
+  (:requirements :strips)
+  (:types block table)
+  (:action move
+     :parameters (?b - block ?x - table ?y - table)
+     :precondition (and (block ?b) (table ?x) (table ?y) (on_table ?b ?x) (clear ?b) (clear_table ?y) )
+     :effect (and (not (on_table ?b ?x)) (on_table ?b ?y) (clear_table ?x) (not (clear_table ?y)))
+     )
+  (:action stack
+     :parameters (?a - block ?x - table ?b - block ?y - table)
+     :precondition (and (block ?a) (block ?b) (table ?x) (table ?y) (clear ?a) (clear ?b) (on_table ?a ?x) (on_table ?b ?y) )
+     :effect (and (on ?a ?b) (not (on_table ?a ?x)) (not (clear ?b)) (clear_table ?x) )
+     )
+  (:action unstack
+     :parameters (?a - block ?b - block ?x - table ?y - table)
+     :precondition (and (block ?a) (block ?b) (table ?x) (table ?y) (on_table ?b ?x) (on ?a ?b) (clear ?a) (clear_table ?y) )
+     :effect (and (on_table ?a ?y) (not (on ?a ?b)) (clear ?b) (not (clear_table ?y)))
+     )
+)
