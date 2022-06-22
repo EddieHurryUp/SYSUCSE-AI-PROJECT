@@ -12,26 +12,6 @@ class pddl_parser:
         # self.predicate_list = {}
         self.domain_filename = domain_filename
         self.problem_filename = problem_filename
-    
-    # def neg(self , pre):
-    #     head  = pre[0]
-    #     new_pre = []
-    #     if head[0] == 'n' and head[1] == 'o' and head[2] == 't':
-    #         new_head = ''
-    #         for i in range(len(head)):
-    #             if i > 3:
-    #                 new_head += head[i]
-    #         new_pre.append(new_head)
-    #         for i in range(len(pre)):
-    #             if i > 0:
-    #                 new_pre.append(pre[i])
-    #     else:
-    #         new_head = "not_" + head
-    #         new_pre.append(new_head)
-    #         for i in range(len(pre)):
-    #             if i > 0:
-    #                 new_pre.append(pre[i])
-    #     return tuple(new_pre)
 
     def make_parameter(self , s):
         pattern = re.compile(r"\?(\w+) - (\w+)")
@@ -112,19 +92,6 @@ class pddl_parser:
                     tmp_add.append(self.make_object(add))
                 for delete in dels:
                     tmp_del.append(self.make_object(delete)[1:])
-
-                # neg_adds = []
-                # for add in tmp_add:
-                #     neg_adds.append(self.neg(add))
-                # neg_dels = []
-                # for _del in tmp_del:
-                #     neg_dels.append(self.neg(_del))
-
-                # for neg_add in neg_adds:
-                #     tmp_del.append(neg_add)
-                # for neg_del in neg_dels:
-                #     tmp_add.append(neg_del)
-                
                 self.effect_adds.append(tmp_add)
                 self.effect_dels.append(tmp_del)
                 i += 1
@@ -168,84 +135,6 @@ class pddl_parser:
                     for neg_goal in neg_goals:
                         self.goal.append(self.make_neg_precondition(neg_goal)) 
                 i += 1
-    
-    # def find_type(self , obj , paras):
-    #     for it in paras:
-    #         if it[0] == obj:
-    #             return it[1]
-
-    # def make_pred_list(self):
-    #     # preds = []
-    #     # for i in self.preconditions:
-    #     #     preds += i
-    #     for i in range(len(self.preconditions)):
-    #         preds = self.preconditions[i]
-    #         parameters = self.parameters[i]
-    #         for it in preds:
-    #             # print(it)
-    #             if it[0][0] == 'n' and it[0][1] == 'o' and it[0][2] == 't':
-    #                 pred = ''
-    #                 for i in range(len(it[0])):
-    #                     if i > 3:
-    #                         pred += it[0][i]
-    #             else:
-    #                 pred = it[0]
-    #             if (pred not in self.predicate_list):
-    #                 tmp = []
-    #                 for i in range(len(it)):
-    #                     if  i > 0:
-    #                         vtype = self.find_type(it[i] , parameters)
-    #                         tmp.append((str(i) , vtype))
-    #                 self.predicate_list[pred] = tmp
-
-    #     for i in range(len(self.effect_adds)):
-    #         preds = self.effect_adds[i]
-    #         parameters = self.parameters[i]
-    #         for it in preds:
-    #             # print(it)
-    #             if it[0][0] == 'n' and it[0][1] == 'o' and it[0][2] == 't':
-    #                 pred = ''
-    #                 for i in range(len(it[0])):
-    #                     if i > 3:
-    #                         pred += it[0][i]
-    #             else:
-    #                 pred = it[0]
-    #             if pred not in self.predicate_list:
-    #                 tmp = []
-    #                 for i in range(len(it)):
-    #                     if  i > 0:
-    #                         vtype = self.find_type(it[i] , parameters)
-    #                         tmp.append((str(i) , vtype))
-    #                 self.predicate_list[pred] = tmp
-
-    #     for i in range(len(self.effect_dels)):
-    #         preds = self.effect_dels[i]
-    #         parameters = self.parameters[i]
-    #         for it in preds:
-    #             # print(it)
-    #             if it[0][0] == 'n' and it[0][1] == 'o' and it[0][2] == 't':
-    #                 pred = ''
-    #                 for i in range(len(it[0])):
-    #                     if i > 3:
-    #                         pred += it[0][i]
-    #             else:
-    #                 pred = it[0]
-
-    #             if pred not in self.predicate_list:
-    #                 tmp = []
-    #                 for i in range(len(it)):
-    #                     if  i > 0:
-    #                         vtype = self.find_type(it[i] , parameters)
-    #                         tmp.append((str(i) , vtype))
-    #                 self.predicate_list[pred] = tmp                    
-        #     pred = it[0]
-        #     if pred not in self.predicate_list:
-        #         tmp = []
-        #         for i in range(len(it)):
-        #             if  i > 0:
-        #                 vtype = self.find_type(it[i])
-        #                 tmp.append((str(i) , vtype))
-        #         self.predicate_list[pred] = tmp
     
     def parse(self):
         self.domain_parser()

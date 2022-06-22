@@ -30,7 +30,10 @@ class Node(object):
         self.acts = acts
     
     def __lt__(self, other):
-        return self.f < other.f
+        if self.f == other.f:
+            return self.h < other.h
+        else:
+            return self.f < other.f
 
 class pddl_planner:
     def __init__(self , actions , objects , init , goal):
@@ -289,11 +292,6 @@ class pddl_planner:
                         adds_list.append(add)
                     break
 
-            # relaxed_Gn = []
-            # for it in Gn:
-            #     if it[0][0] == 'n' and it[0][1] == '_':
-            #         continue
-            #     relaxed_Gn.append(it)
             if set(Gn) <= set(adds_list):
                 break
         
@@ -326,16 +324,14 @@ class pddl_planner:
 
             if self.goal_achieved(head_node.state):
                 end_time = time.time()
-                print("******* Plan Success! *******")
-                print("Using time:" , end_time - start_time , 'seconds.' )
-                print("Pop nodes:" , pop_time , "times")
-                print("*****************************\n")
-
                 print("============================ result: ============================")
                 for i in range(len(head_node.acts)):
                     action = head_node.acts[i]
                     print("step" , i , ": " , end='')
                     self.standard_output(action)
+                print("=================================================================")
+                print("plan_time: " , end_time - start_time , "seconds.")
+                print('pop_times: ' , pop_time)
                 print("=================================================================")
                 break
         
@@ -358,6 +354,7 @@ class pddl_planner:
                     h = self.h_function(new_state)
                     new_node = Node(new_state, head_node.g+1 , h , self.goal , acts)
                     q.put(new_node)
+                    close.append(new_state)
 
     def standard_output(self , action):
         action_name = action.action_name
