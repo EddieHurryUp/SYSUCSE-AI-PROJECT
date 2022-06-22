@@ -267,7 +267,7 @@ class pddl_planner:
             # print(new_layer)
         return layers
 
-    def CountAction(self , goals , state_layer, cur_layer):
+    def count_action(self , goals , state_layer, cur_layer):
         if cur_layer == 0:
             return 0
 
@@ -300,11 +300,11 @@ class pddl_planner:
             for prec in act.preconditions:
                 if prec not in goal_next:
                     goal_next.append(prec)
-        return len(action_list) + self.CountAction(goal_next, state_layer, cur_layer-1)
+        return len(action_list) + self.count_action(goal_next, state_layer, cur_layer-1)
     
     def h_function(self,state):
         layers = self.build_layers(state)
-        h = self.CountAction(self.goal, layers, len(layers)-1)
+        h = self.count_action(self.goal, layers, len(layers)-1)
         return h
 
     def A_star_search(self):
